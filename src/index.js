@@ -77,7 +77,7 @@ helper.logStart()
 
 //--------------------
 
-const TOKEN = '1627398804:AAFyTy0G92y_p8q44hncbgI7dzV_qr8pBw'
+const TOKEN = '1612733052:AAFRgy6DhS'
 
 const bot = new TelegramBot(TOKEN, {
     polling: true
@@ -228,6 +228,13 @@ bot.on('message', (msg) => {
                 tasks[o].stop()
             }
             tasks = {}
+
+            Subs.find({}).then(subs => {
+                subs.map(s => {
+                s.unsub = 'Выключено';
+                s.save();
+            })}).catch(err => console.log(err))
+            bot.sendMessage(chatId, 'Выключено')
             break
         case kb.home.spis:
             pingbool = false
@@ -964,7 +971,7 @@ bot.on('callback_query', query => {
 bot.on('inline_query', query => {
     SubsGeneral.find({}).then(subs => {
         const results = subs.map(s => {
-            const caption = `Название: ${s.name}\nЦена: ${s.price}\nКатегория: ${s.category}\n@rtref_bot`
+            const caption = `Название: ${s.name}\nЦена: ${s.price}\nКатегория: ${s.category}\n@TracksyBot`
 
             return {
                 id: s._id,

@@ -6,6 +6,7 @@ const kb = require('./keybord-buttons')
 const keyboard = require('./keyboard')
 const database = require('../database.json')
 var cron = require('node-cron')
+var emoji = require('node-emoji').emoji;
 
 mongoose.connect(config.DB_URL, {
     useMongoClient: true
@@ -77,7 +78,7 @@ helper.logStart()
 
 //--------------------
 
-const TOKEN = '1612733052:AAFRgy6DhS'
+const TOKEN = '1612733052:AAFRgy6DhSq'
 
 const bot = new TelegramBot(TOKEN, {
     polling: true
@@ -310,7 +311,7 @@ bot.on('message', (msg) => {
             console.log("bef")
             boolspis = false
             pingbool = false
-            bot.sendMessage(chatId, 'Выберите готовую подписку или создайте свою', {
+            bot.sendMessage(chatId, 'Выбери свою подписку из списка ниже или используй кнопку "Категории" для поиска по тематическим подпискам. Если не нашёл свою подписку, то ты всегда можешь создать её сам нажав на кнопку "Создать подписку"', {
                 reply_markup: {
                     keyboard: keyboard['subs']
                 }
@@ -707,7 +708,7 @@ bot.onText(/\/type/,msg => {
 })
 
 bot.onText(/\/start/,msg => {
-    const text = `Здравствйте, ${msg.from.first_name}\nВыберите команду для начала работы`
+    const text = `Для управления используй кнопки внизу экрана.` + emoji.arrow_down + `:\n\n1. Для начала расскажи мне, какие у тебя есть подписки через кнопку "Добавить подписки"  ` + emoji.heavy_plus_sign + `\n2.После этого укажи даты списания через кнопку "Дата списания подписок" ` + emoji.calendar + `\n3.Посмотреть все свои подписки ты можешь в разделе "Мои подписки" ` + emoji.bar_chart + `\n4.Ты всегда можешь управлять уведомлениями в соответствующем разделе, чтобы я не беспокоил тебя лишний раз ` + emoji.bell
     console.log(keyboard.home)
     bot.sendMessage(helper.getChatId(msg), text, {
         reply_markup: {
